@@ -39,8 +39,8 @@ func (m *fakeManager) AddHintProvider(h HintProvider) {
 	klog.InfoS("AddHintProvider", "hintProvider", h)
 }
 
-func (m *fakeManager) AddContainer(pod *v1.Pod, containerID string) error {
-	klog.InfoS("AddContainer", "pod", klog.KObj(pod), "containerID", containerID)
+func (m *fakeManager) AddContainer(pod *v1.Pod, container *v1.Container, containerID string) error {
+	klog.InfoS("AddContainer", "pod", klog.KObj(pod), "containerName", container.Name, "containerID", containerID)
 	return nil
 }
 

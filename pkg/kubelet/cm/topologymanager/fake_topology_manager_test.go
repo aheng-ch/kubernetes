@@ -78,7 +78,9 @@ func TestFakeAddContainer(t *testing.T) {
 	for _, tc := range testCases {
 		pod := v1.Pod{}
 		pod.UID = tc.podUID
-		err := fm.AddContainer(&pod, tc.containerID)
+		container := v1.Container{}
+		container.Name = tc.name
+		err := fm.AddContainer(&pod, &container, tc.containerID)
 		if err != nil {
 			t.Errorf("Expected error to be nil but got: %v", err)
 

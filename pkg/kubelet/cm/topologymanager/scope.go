@@ -44,7 +44,7 @@ type Scope interface {
 	// wants to be consoluted with when making topology hints
 	AddHintProvider(h HintProvider)
 	// AddContainer adds pod to Manager for tracking
-	AddContainer(pod *v1.Pod, container *v1.Container, containerID string) error
+	AddContainer(pod *v1.Pod, container *v1.Container, containerID string)
 	// RemoveContainer removes pod from Manager tracking
 	RemoveContainer(containerID string) error
 	// Store is the interface for storing pod topology hints
@@ -95,12 +95,11 @@ func (s *scope) AddHintProvider(h HintProvider) {
 
 // It would be better to implement this function in topologymanager instead of scope
 // but topologymanager do not track mapping anymore
-func (s *scope) AddContainer(pod *v1.Pod, container *v1.Container, containerID string) error {
+func (s *scope) AddContainer(pod *v1.Pod, container *v1.Container, containerID string) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 
 	s.podMap.Add(string(pod.UID), container.Name, containerID)
-	return nil
 }
 
 // It would be better to implement this function in topologymanager instead of scope

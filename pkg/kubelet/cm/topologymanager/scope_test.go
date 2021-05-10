@@ -71,10 +71,7 @@ func TestAddContainer(t *testing.T) {
 		pod.UID = tc.podUID
 		container := v1.Container{}
 		container.Name = tc.name
-		err := scope.AddContainer(&pod, &container, tc.containerID)
-		if err != nil {
-			t.Errorf("Expected error to be nil but got: %v", err)
-		}
+		scope.AddContainer(&pod, &container, tc.containerID)
 		if val, ok := scope.podMap[tc.containerID]; ok {
 			if reflect.DeepEqual(val, pod.UID) {
 				t.Errorf("Error occurred")
@@ -119,8 +116,11 @@ func TestRemoveContainer(t *testing.T) {
 		if err != nil {
 			t.Errorf("Expected error to be nil but got: %v", err)
 		}
-		if len1-len2 != 1 || lenHints1-lenHints2 != 1 {
-			t.Errorf("Remove Pod resulted in error")
+		if len1-len2 != 1 {
+			t.Errorf("Remove Pod from podMap resulted in error")
+		}
+		if lenHints1-lenHints2 != 1 {
+			t.Error("Remove Pod from podTopologyHints resulted in error")
 		}
 	}
 
